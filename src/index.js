@@ -1,50 +1,53 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
+import reducer from "./reducer";
 
-const counterReducer = (state = 0, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    case 'ZERO':
-      return 0
-    default:
-      return state
-  }
-}
-
-const store = createStore(counterReducer)
+const store = createStore(reducer);
 
 const App = () => {
+  const state = store.getState();
+
+  const good = () => {
+    store.dispatch({
+      type: "GOOD",
+    });
+  };
+
+  const ok = () => {
+    store.dispatch({
+      type: "OK",
+    });
+  };
+
+  const bad = () => {
+    store.dispatch({
+      type: "BAD",
+    });
+  };
+
+  const zero = () => {
+    store.dispatch({
+      type: "ZERO",
+    });
+  };
+
   return (
     <div>
-      <div>
-        {store.getState()}
-      </div>
-      <button 
-        onClick={e => store.dispatch({ type: 'INCREMENT' })}
-      >
-        plus
-      </button>
-      <button
-        onClick={e => store.dispatch({ type: 'DECREMENT' })}
-      >
-        minus
-      </button>
-      <button 
-        onClick={e => store.dispatch({ type: 'ZERO' })}
-      >
-        zero
-      </button>
+      <button onClick={good}>good</button>
+      <button onClick={ok}>neutral</button>
+      <button onClick={bad}>bad</button>
+      <button onClick={zero}>reset stats</button>
+      <div>good {state.good}</div>
+      <div>neutral {state.ok}</div>
+      <div>bad {state.bad}</div>
     </div>
-  )
-}
+  );
+};
 
 const renderApp = () => {
-  ReactDOM.render(<App />, document.getElementById('root'))
-}
+  ReactDOM.render(<App />, document.getElementById("root"));
+};
 
-renderApp()
-store.subscribe(renderApp)
+renderApp();
+store.subscribe(renderApp);
